@@ -1,5 +1,3 @@
-"""SQLAlchemy engine ve oturum fabrikası (henüz route'larda kullanılmıyor)."""
-
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
@@ -21,7 +19,6 @@ SessionLocal = sessionmaker(
 
 
 def get_db() -> Generator[Session, None, None]:
-    """FastAPI dependency olarak kullanılacak DB oturumu (ileride)."""
     db = SessionLocal()
     try:
         yield db
