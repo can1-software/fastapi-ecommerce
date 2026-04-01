@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.openapi.docs import (
     get_redoc_html,
@@ -5,9 +7,12 @@ from fastapi.openapi.docs import (
     get_swagger_ui_oauth2_redirect_html,
 )
 from fastapi.responses import HTMLResponse
+from starlette.staticfiles import StaticFiles
 
 from app.core.config import settings
 from app.modules.auth.presentation.api.router import router as auth_router
+from app.modules.categories.presentation.api.router import router as categories_router
+from app.modules.products.presentation.api.router import router as products_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -50,7 +55,20 @@ def root() -> dict[str, str]:
         "docs": "/docs",
         "redoc": "/redoc",
         "openapi": "/openapi.json",
+        "media": settings.MEDIA_URL_PATH,
     }
 
 
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(categories_router, prefix="/api/v1")
+app.include_router(products_router, prefix="/api/v1")
+
+_media_root = Path(settings.MEDIA_ROOT)
+if not _media_root.is_absolute():
+    _media_root = Path.cwd() / settings.MEDIA_ROOT
+_media_root.mkdir(parents=True, exist_ok=True)
+app.mount(
+    settings.MEDIA_URL_PATH,
+    StaticFiles(directory=str(_media_root)),
+    name="media",
+)
