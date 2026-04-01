@@ -6,6 +6,7 @@ from sqlalchemy import engine_from_config, pool
 from app.core.config import settings
 from app.infrastructure.persistence.base import Base
 from app.modules.auth.infrastructure.persistence.models import User  # noqa: F401
+from app.modules.cart.infrastructure.persistence.models import Cart, CartItem  # noqa: F401
 from app.modules.categories.infrastructure.persistence.models import Category  # noqa: F401
 from app.modules.products.infrastructure.persistence.models import Product  # noqa: F401
 

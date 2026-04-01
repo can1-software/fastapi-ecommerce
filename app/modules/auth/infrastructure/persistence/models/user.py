@@ -1,9 +1,13 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Boolean, DateTime, String, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.infrastructure.persistence.base import Base
+
+if TYPE_CHECKING:
+    from app.modules.cart.infrastructure.persistence.models.cart import Cart
 
 
 class User(Base):
@@ -18,3 +22,4 @@ class User(Base):
         DateTime(timezone=True),
         server_default=func.now(),
     )
+    cart: Mapped[Cart | None] = relationship("Cart", uselist=False)

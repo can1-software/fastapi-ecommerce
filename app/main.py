@@ -11,6 +11,7 @@ from starlette.staticfiles import StaticFiles
 
 from app.core.config import settings
 from app.modules.auth.presentation.api.router import router as auth_router
+from app.modules.cart.presentation.api.router import router as cart_router
 from app.modules.categories.presentation.api.router import router as categories_router
 from app.modules.products.presentation.api.router import router as products_router
 
@@ -62,6 +63,7 @@ def root() -> dict[str, str]:
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(categories_router, prefix="/api/v1")
 app.include_router(products_router, prefix="/api/v1")
+app.include_router(cart_router, prefix="/api/v1")
 
 _media_root = Path(settings.MEDIA_ROOT)
 if not _media_root.is_absolute():

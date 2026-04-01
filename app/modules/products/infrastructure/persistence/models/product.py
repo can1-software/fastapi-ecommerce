@@ -2,12 +2,16 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey, Numeric, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.infrastructure.persistence.base import Base
 from app.modules.categories.infrastructure.persistence.models.category import Category
+
+if TYPE_CHECKING:
+    from app.modules.cart.infrastructure.persistence.models.cart_item import CartItem
 
 
 class Product(Base):
@@ -29,3 +33,4 @@ class Product(Base):
     )
 
     category: Mapped[Category] = relationship("Category", back_populates="products")
+    cart_items: Mapped[list[CartItem]] = relationship("CartItem", back_populates="product")
